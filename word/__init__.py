@@ -17,8 +17,8 @@ logging.getLogger("pyrate_limiter").setLevel(logging.ERROR)
 LOGGER = logging.getLogger(__name__)
 
 
-TOKEN = os.getenv("TOKEN","8092284117:AAHjqmv2-RtmZEmyBWDoMDkEEEhX_AORKEM")
-mongo_url = os.getenv("MONGO_URL","mongodb+srv://rohit6205881743:rohit6205881743@cluster0.soqtewz.mongodb.net/")
+TOKEN = os.getenv("TOKEN","")
+mongo_url = os.getenv("MONGO_URL","")
 API_HASH = os.getenv("API_HASH","750432c8e1b221f91fd2c93a92710093")
 API_ID = os.getenv("API_ID","28122413")
 
