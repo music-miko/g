@@ -1,0 +1,10 @@
+apscheduler==3.6.3
+asyncio
+kurigram
+motor
+pexpect
+pyromod
+pyrate-limiter==3.1.0
+requests
+tgcrypto
+
