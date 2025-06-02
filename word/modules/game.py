@@ -8,8 +8,10 @@ from datetime import datetime
 import random
 from datetime import timedelta
 
+
 active_games = {}
 pending_games = {}
+
 
 class Game:
     def __init__(self, chat_id):
