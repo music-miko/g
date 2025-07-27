@@ -59,7 +59,7 @@ class SpyGame:
         self.explanation_message = await spy.send_message(
             self.chat_id,
             f"{player['mention']} Explain your word! Reply to this message.",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("View Word", url=f"t.me/WordNWordRobot")]])
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("View Word", url=f"t.me/ChainWordsBot")]])
         )
 
     async def handle_explanation(self, user_id, text):
@@ -92,7 +92,7 @@ class SpyGame:
                 )
             except:
                 pass    
-        await spy.send_message(self.chat_id, "🗳️ Voting started! Check PMs!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Go To Votes", url=f"t.me/WordNWordRobot")]]))
+        await spy.send_message(self.chat_id, "🗳️ Voting started! Check PMs!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Go To Votes", url=f"t.me/ChainWordsBot")]]))
 
     async def end_game(self):
         max_votes = max(self.votes.values(), default=0)
@@ -148,7 +148,7 @@ async def join_spy(client, message):
         )
     except Exception:
         return await message.reply(
-            "❌ Please start the bot in private and unblock it to join the game: [Start Bot](https://t.me/WordNWordRobot)",
+            "❌ Please start the bot in private and unblock it to join the game: [Start Bot](https://t.me/ChainWordsBot)",
             disable_web_page_preview=True
         )
         return
@@ -269,7 +269,7 @@ async def handle_vote_callback(client, query):
             query.from_user.id,
             f"✅ You voted for {game.get_player(voted_id)['mention']}!", 
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("Go Back", url=f"{chat_link}" if chat_link else "https://t.me/WordNWordRobot")]
+                [InlineKeyboardButton("Go Back", url=f"{chat_link}" if chat_link else "https://t.me/ChainWordsBot")]
             ])
         )
         await spy.send_message(
