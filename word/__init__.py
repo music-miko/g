@@ -35,7 +35,7 @@ word = Client(
 )
 
 
-DEV_LIST = [7969722879]
+DEV_LIST = [7321657753]
 
 client = AsyncIOMotorClient(mongo_url)
 db = client['WordNWord']
