@@ -13,7 +13,7 @@ START_TEXT = """👋 **Hello {user}!**
 • 🔗 Word Chain  
 • 🕵️ Spyfall
 
-➕ **Add me to a group** and send  to start playing!
+➕ **Add me to a group** and send ```/startclassic``` to start playing!
 
 ❓Need help? Ping @DeadlineTechSupport"""
 
@@ -46,7 +46,7 @@ async def start(client: Client, message: Message):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("+ Add Me +", url="https://t.me/WordNWordRobot?startgroup=true"),
+                        InlineKeyboardButton("➕ Add Me ➕", url="https://t.me/ChainWordsBot?startgroup=true"),
                     ]
                 ]
             )
