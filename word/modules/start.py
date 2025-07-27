@@ -3,11 +3,19 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from word.database.db import add_user, get_user, add_group, get_group
 from word import word
 
-START_TEXT = """**👋 Hey {user}!
+START_TEXT = """👋 **Hello {user}!**
 
-{bot} - Hi! I host games of word chain in Telegram groups.
-Add me to a group to start playing games!
-**"""
+🎮 Welcome to **{bot}** – your all-in-one word game bot for Telegram groups!
+
+🕹️ **Games Available:**
+• 🐊 Crocodile  
+• 🗺️ Atlas  
+• 🔗 Word Chain  
+• 🕵️ Spyfall
+
+➕ **Add me to a group** and send  to start playing!
+
+❓Need help? Ping @DeadlineTechSupport"""
 
 @word.on_message(filters.command(["start", "help"]))
 async def start(client: Client, message: Message):
