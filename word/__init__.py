@@ -18,10 +18,10 @@ logging.getLogger("pyrate_limiter").setLevel(logging.ERROR)
 LOGGER = logging.getLogger(__name__)
 
 
-TOKEN = os.getenv("TOKEN","sdk_78364:AAH2b1a3-7d8f-4c5b-9e0c-6f8e2a3b4c5d")
-mongo_url = os.getenv("MONGO_URL","sdk://localhost:27017/WordNWord")
-API_HASH = os.getenv("API_HASH","sdk_1234567890abcdef1234567890abcdef")
-API_ID = os.getenv("API_ID","sdk_123456")
+TOKEN = os.getenv("TOKEN","8450714119:AAG3qQ8JeNJfo0y9OsEp0MCX4CV00K1oqas")
+mongo_url = os.getenv("MONGO_URL","mongodb+srv://word:Zp1oCmbxaJUnFNRH@deadline.g7gbxvy.mongodb.net/?retryWrites=true&w=majority&appName=deadline")
+API_HASH = os.getenv("API_HASH","9a098f01aa56c836f2e34aee4b7ef963")
+API_ID = os.getenv("API_ID","24620300")
 if not TOKEN or not mongo_url or not API_HASH or not API_ID:
     raise ValueError("Please set the environment variables: TOKEN, MONGO_URL, API_HASH, and API_ID.")
 
