@@ -176,23 +176,59 @@ Last remaining player wins!
 @word.on_callback_query(filters.regex("help_other"))
 async def help_other(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        """🕵️ **Spyfall Game Help**
+        """ **🕵️Spyfall Game Help**
+━━━━━━━━━━━━━━━  
+**🔰 Objective:**
+Find the **Imposter** among the players.  
+One player gets a different word — your goal is to catch them!
 
-`/startspy` – Start a new game (group only)
-`/joinspy` – Join an active game
-`/forcestartspy` – Force start the game early
-`/stopspy` – Cancel the game
+━━━━━━━━━━━━━━━  
+**🛠️ How to Start:**  
+• `/startspy` – Begin a new spy game  
+• Players join with `/joinspy`  
+• Min 4 players | Max 6 players  
+• Use `/forcestartspy` to skip countdown (only for creator or devs)
 
-🎮 **How to Play:**
-• Players get secret words in PM
-• 1 Imposter gets a different/fake word
-• Take turns describing your word vaguely
-• After all turns, vote privately for the imposter
-• If imposter is caught = Crew wins, else Imposter wins!
+━━━━━━━━━━━━━━━  
+**🧑‍🤝‍🧑 Roles:**  
+• 1 **Imposter** gets a **different** word  
+• Rest are **Crewmates** with the **same** word  
+> Example:  
+> Crewmates: **Mountain**  
+> Imposter: **Volcano**
 
-👥 **Players: 4-6 required**
-❗ Start the bot in PM before joining
-💬 Ping us: @DeadlineTechSupport
+━━━━━━━━━━━━━━━  
+**🧠 Explanation Round:**  
+• Players take turns explaining their word (without saying it!)  
+• Must **reply to the bot's message**  
+• Each explanation is shown publicly  
+
+━━━━━━━━━━━━━━━  
+**🗳️ Voting Phase:**  
+• Vote privately via DM  
+• Choose who you think the imposter is  
+• You **cannot vote for yourself**
+
+━━━━━━━━━━━━━━━  
+**🏁 Game End:**  
+• Most-voted player is eliminated  
+• If it's the **Imposter** → ✅ **Crewmates win**  
+• Else → ❌ **Imposter wins**
+
+━━━━━━━━━━━━━━━  
+**⚙️ Game Commands:**  
+• `/startspy` – Start game  
+• `/joinspy` – Join game  
+• `/forcestartspy` – Force start (creator/dev only)  
+• `/stopspy` – Cancel game
+
+━━━━━━━━━━━━━━━  
+**⚠️ Notes:**  
+• **Bot must be able to DM you** — click [here](https://t.me/ChainWordsBot) to start it  
+• Game works **only in groups**  
+• Fully automated: from DM instructions to voting
+
+━━━━━━━━━━━━━━━
 """,
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton("🔙 Back to Help", callback_data="help_main")]
