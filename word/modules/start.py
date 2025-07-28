@@ -145,11 +145,31 @@ How to Play:
 @word.on_callback_query(filters.regex("help_other"))
 async def help_other(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        """🗺 **Atlas Game Help**
-        
-🗺️ **Atlas**
-• Each player must say a valid city or country
-• Word must start with the last letter of the previous word
+        """🌎 **Atlas Game Help**
+
+`/startatlas` – Start a new Atlas game in the group
+`/joinatlas` – Join a pending game
+`/fleeatlas` – Leave the current game
+`/extendatlas` – Extend the start countdown by 30s
+`/forceatlas` – Force start the game (starter only)
+`/atlasstats` – View your personal stats
+
+🎯 **Game Rules:**
+• First place starts with a random letter
+• Each new place must start with the **last letter** of the previous place
+• Minimum length starts at 3 letters
+• Each player has **45 seconds** per turn
+• Every 2 places → +1 minimum length
+• Every 4 places → -10s time per turn (min 15s)
+• No repetition of places!
+
+🏆 **Victory:**
+Last remaining player wins!
+⛔ Invalid entries or timeouts = elimination
+
+🎒 Tip: All city/state/country names are valid. Stay sharp!
+
+Need help? Ping: @DeadlineTechSupport
 
 """,
         reply_markup=InlineKeyboardMarkup([
