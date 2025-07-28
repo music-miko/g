@@ -112,8 +112,6 @@ class Game:
         await self.next_turn()
 
     async def handle_timeout(self):
-        if self.turn_index >= len(self.players):
-            self.turn_index = 0
         player = self.players.pop(self.turn_index)
         await word.send_message(self.chat_id, f"{player['mention']} ran out of time! Eliminated!")
         if len(self.players) == 1:
