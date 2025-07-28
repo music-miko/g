@@ -13,7 +13,7 @@ START_TEXT = """👋 **Hello {user}!**
 • 🔗 Word Chain  
 • 🕵️ Spyfall
 
-➕ **Add me to a group** and send ```/startclassic``` to start playing!
+➕ **Add me to a group** and send `/startclassic` to start playing!
 """
 
 HELP_TEXT = """🆘 **How to Play and Commands Overview**
@@ -34,10 +34,10 @@ HELP_TEXT = """🆘 **How to Play and Commands Overview**
 • Word must start with the last letter of the previous word
 
 🕵️ **Spyfall Game Help**
-```/startspy``` – Start a new game (group only)
-```/joinspy``` – Join an active game
-```/forcestartspy``` – Force start the game early
-```/stopspy``` – Cancel the game
+`/startspy` – Start a new game (group only)
+`/joinspy` – Join an active game
+`/forcestartspy` – Force start the game early
+`/stopspy` – Cancel the game
 """
 
 # ▶ START command
@@ -163,10 +163,10 @@ async def help_general(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
         """🕵️ **Spyfall Game Help**
 
-```/startspy``` – Start a new game (group only)
-```/joinspy``` – Join an active game
-```/forcestartspy``` – Force start the game early
-```/stopspy``` – Cancel the game
+`/startspy` – Start a new game (group only)
+`/joinspy` – Join an active game
+`/forcestartspy` – Force start the game early
+`/stopspy` – Cancel the game
 
 🎮 **How to Play:**
 • Players get secret words in PM
