@@ -143,7 +143,7 @@ async def start_classic(client, message: Message):
     chat_id = message.chat.id
     
     if not await get_group(message.chat.id):
-           await add_group(message.chat.id, message.chat.title)
+        await add_group(message.chat.id, message.chat.title)
     
     if chat_id in pending_games:
         return await message.reply("A game is already pending!")
