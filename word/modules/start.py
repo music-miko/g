@@ -1,8 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from word.database.db import add_user, get_user, add_group, get_group
-from word import word
-import collection, user_Collection
+from word import word, collection, user_Collection
 
 START_TEXT = """👋 **Hello {user}!**
 
