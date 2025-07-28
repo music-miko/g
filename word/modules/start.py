@@ -34,8 +34,10 @@ HELP_TEXT = """🆘 **How to Play and Commands Overview**
 • Word must start with the last letter of the previous word
 
 🕵️ **Spyfall Game Help**
-• One player is spy, others must guess who
-• Spy tries to guess the location
+```/startspy``` – Start a new game (group only)
+```/joinspy``` – Join an active game
+```/forcestartspy``` – Force start the game early
+```/stopspy``` – Cancel the game
 """
 
 # ▶ START command
@@ -161,9 +163,21 @@ async def help_general(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
         """🕵️ **Spyfall Game Help**
 
-🕵️ **Spyfall**
-• One player is spy, others must guess who
-• Spy tries to guess the location
+```/startspy``` – Start a new game (group only)
+```/joinspy``` – Join an active game
+```/forcestartspy``` – Force start the game early
+```/stopspy``` – Cancel the game
+
+🎮 **How to Play:**
+• Players get secret words in PM
+• 1 Imposter gets a different/fake word
+• Take turns describing your word vaguely
+• After all turns, vote privately for the imposter
+• If imposter is caught = Crew wins, else Imposter wins!
+
+👥 **Players: 4-6 required**
+❗ Start the bot in PM before joining
+💬 Ping us: @DeadlineTechSupport
 """,
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton("🔙 Back to Help", callback_data="help_main")]
