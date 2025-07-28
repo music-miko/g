@@ -4,6 +4,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from word import word
 from word import WORD_SET
 from word.database.db import update_stats, get_stats
+from word.database.db import add_group, get_group
 from datetime import datetime
 import random
 from datetime import timedelta
@@ -140,6 +141,10 @@ class Game:
 @word.on_message(filters.command("startclassic") & filters.group)
 async def start_classic(client, message: Message):
     chat_id = message.chat.id
+    
+    if not await get_group(message.chat.id):
+           await add_group(message.chat.id, message.chat.title)
+    
     if chat_id in pending_games:
         return await message.reply("A game is already pending!")
     
