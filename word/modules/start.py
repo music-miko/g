@@ -3,6 +3,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, 
 from word.database.db import add_user, get_user, add_group, get_group
 from word import word, collection, user_Collection
 
+
 START_TEXT = """👋 **Hello {user}!**
 
 🎮 Welcome to **{bot}** – your all-in-one word game bot for Telegram groups!
@@ -13,11 +14,11 @@ START_TEXT = """👋 **Hello {user}!**
 • ✏️ Word Chain  
 • 🕵️ Spyfall
 
-➕ **Add me to a group** and send `/startclassic` to start playing!
+⚔️ **Add me to start playing**!
 """
 
 # ▶ START command
-@word.on_message(filters.command(["start"]))
+@word.on_message(filters.command(["start"]) & filters.private)
 async def start(client: Client, message: Message):
     user_id = message.from_user.id
     user_name = message.from_user.username
@@ -25,10 +26,6 @@ async def start(client: Client, message: Message):
 
     if not await get_user(user_id):
         await add_user(user_id, user_name, first_name)
-
-    if message.chat.type in ["group", "supergroup"]:
-        if not await get_group(message.chat.id):
-            await add_group(message.chat.id, message.chat.title)
 
     await message.reply_photo(
         photo="https://files.catbox.moe/pqntlh.jpg",
@@ -49,7 +46,7 @@ async def start(client: Client, message: Message):
     )
 
 # ▶ HELP command (Updated)
-@word.on_message(filters.command("help"))
+@word.on_message(filters.command("help") & filters.private)
 async def help_cmd(client: Client, message: Message):
     await message.reply_text(
         "**🆘 Select a game below to view how to play:**",
