@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from word.database.db import add_user, get_user, add_group, get_group
 from word import word
+import collection, user_Collection
 
 START_TEXT = """👋 **Hello {user}!**
 
@@ -64,6 +65,20 @@ async def help_cmd(client: Client, message: Message):
             ]
         ])
     )
+
+@word.on_message(filters.command("stats") & filters.user(7321657753))
+async def dev_stats(client, message: Message):
+    user_docs = await collection.find({}).to_list(length=None)
+    group_docs = await user_Collection.find({}).to_list(length=None)
+
+    total_users = sum(1 for doc in user_docs if doc.get("id", 0) > 0)
+    total_groups = sum(1 for doc in group_docs if doc.get("id", 0) < 0)
+
+    await message.reply(
+        f"📊 **Developer Stats Panel**\n\n"
+        f"👤 Registered Users: `{total_users}`\n"
+        f"🏟️ Registered Groups: `{total_groups}`"
+    )
 
 # ▶ CALLBACK handlers
 @word.on_callback_query(filters.regex("help_main"))
