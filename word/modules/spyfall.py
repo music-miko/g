@@ -76,10 +76,12 @@ class SpyGame:
         try:
             chat_link = await spy.export_chat_invite_link(self.chat_id)
         except Exception:
-            chat_link = await spy.get_chat(self.chat_id).invite_link
-        except Exception as e:
-            print(f"Error getting chat link: {e}")
-            chat_link = None
+            try:
+                chat = await spy.get_chat(self.chat_id)
+                chat_link = chat.invite_link
+            except Exception as e:
+                print(f"Error getting chat link: {e}")
+                chat_link = None
         for player in self.players:
             try:
                 await spy.send_message(
@@ -101,9 +103,12 @@ class SpyGame:
         is_imposter = eliminated == self.imposter['id'] if eliminated else False
         await spy.send_message(
             self.chat_id,
-            f"🚨 {self.get_player(eliminated)['mention'] if eliminated else 'No one'} eliminated!\n"
-            f"👤 Imposter: {self.imposter['mention']}\n"
-            f"Common: {self.common_word} | Imposter: {self.imposter_word}\n"
+            f"🚨 {self.get_player(eliminated)['mention'] if eliminated else 'No one'} eliminated!
+"
+            f"👤 Imposter: {self.imposter['mention']}
+"
+            f"Common: {self.common_word} | Imposter: {self.imposter_word}
+"
             f"{'✅ Crew wins!' if is_imposter else '❌ Imposter wins!'}"
         )
         del spy_games[self.chat_id]
@@ -119,17 +124,14 @@ class SpyGame:
     def get_player(self, user_id):
         return next((p for p in self.players if p['id'] == user_id), None)
 
-    
     def get_player_have_explanation(self, user_id):
         return user_id in self.explanations
-    
 
 @spy.on_message(filters.command("startspy") & filters.group)
 async def start_spy(client, message):
     chat_id = message.chat.id
     if chat_id in spy_games:
         return await message.reply("Game already running!")
-    
     game = SpyGame(chat_id)
     spy_games[chat_id] = game
     game.starter = message.from_user.id
@@ -151,14 +153,13 @@ async def join_spy(client, message):
             "❌ Please start the bot in private and unblock it to join the game: [Start Bot](https://t.me/ChainWordsBot)",
             disable_web_page_preview=True
         )
-        return
-    
+
     if any(p['id'] == message.from_user.id for p in game.players):
         return await message.reply("Already joined!")
-    
-    if len(game.players) >= 4:
+
+    if len(game.players) >= 6:
         return await message.reply("Game is full! Cannot join.")
-    
+
     game.players.append({
         'id': message.from_user.id,
         'mention': message.from_user.mention,
@@ -171,10 +172,8 @@ async def force_start(client, message):
     game = spy_games.get(message.chat.id)
     if not game or game.phase != "joining":
         return
-    
     if message.from_user.id != game.starter and message.from_user.id not in DEV_LIST:
         return await message.reply("Only game starter can force start!")
-    
     await game.force_start()
 
 @spy.on_message(filters.text & filters.group)
@@ -182,16 +181,11 @@ async def handle_explanations(client, message):
     game = spy_games.get(message.chat.id)
     if not game or game.phase != "explain":
         return
-
     player_ids = [p['id'] for p in game.players]
     if message.from_user.id not in player_ids:
         return  
-
     current_player = game.players[game.current_player_index]
-
-    
-    if message.reply_to_message:
-        
+    if message.reply_to_message and message.reply_to_message.text:
         if (
             "Explain your word!" not in message.reply_to_message.text
             and message.from_user.id != current_player['id']
@@ -201,24 +195,16 @@ async def handle_explanations(client, message):
             await km.delete()
             await message.delete()
             return
-
-        
         if "Explain your word!" not in message.reply_to_message.text:
             return await message.reply("❌ Reply to the explanation prompt!")
-
-        
         if message.reply_to_message.id == game.explanation_message.id:
             explanation = message.text
             await game.handle_explanation(message.from_user.id, explanation)
             await message.delete()
-
             if not hasattr(game, "all_explanations"):
                 game.all_explanations = []
-
             game.all_explanations.append(f"{current_player['mention']}: {explanation}")
-
             summary_text = "✅ Users Explanations:\n" + "\n".join(game.all_explanations)
-
             if not hasattr(game, "explanation_summary_msg") or game.explanation_summary_msg is None:
                 game.explanation_summary_msg = await spy.send_message(
                     game.chat_id,
@@ -236,35 +222,28 @@ async def handle_explanations(client, message):
                 except Exception as e:
                     print("Edit failed:", e)
 
-                
 @spy.on_callback_query(filters.regex(r'^vote_'))
 async def handle_vote_callback(client, query):
     game = spy_games.get(int(query.data.split("_")[2]))
     chat_link = query.data.split("_")[3] if len(query.data.split("_")) > 3 else None
-    if not game: 
+    if not game:  
         await query.answer("Game no longer exists!")
         return
     try:
         if game.phase != "voting":  
             await query.answer("Voting closed!")
             return
-
         voted_id = int(query.data.split("_")[1])
         voter_id = query.from_user.id
-        
         if voter_id not in [p['id'] for p in game.players]:
             await query.answer("You're not in this game!")
             return
-            
         if voted_id not in [p['id'] for p in game.players]:
             await query.answer("Invalid player!")
             return
-            
         game.votes[voted_id] = game.votes.get(voted_id, 0) + 1
-
         await query.answer(f"Voted for {game.get_player(voted_id)['name']}!")
         await query.message.delete()
-        
         await spy.send_message(
             query.from_user.id,
             f"✅ You voted for {game.get_player(voted_id)['mention']}!", 
@@ -276,24 +255,19 @@ async def handle_vote_callback(client, query):
             game.chat_id,
             f"🗳️ {query.from_user.mention} voted for {game.get_player(voted_id)['mention']}!"
         )
-    
         if sum(game.votes.values()) == len(game.players):
             await game.end_game()
-            
     except Exception as e:
         print(f"Vote error: {e}")
         await query.answer("Error processing vote!")
-    
 
 @spy.on_message(filters.command("stopspy") & filters.group)
 async def stop_spy_game(client, message):
     chat_id = message.chat.id
     if chat_id not in spy_games:
         return await message.reply("No game running in this group!")
-    
     if message.from_user.id not in DEV_LIST and spy_games[chat_id].starter != message.from_user.id:
         return await message.reply("Only the game starter can stop the game!")
-    
     del spy_games[chat_id]
     if temp_message_ids.get(chat_id):
         del temp_message_ids[chat_id]
