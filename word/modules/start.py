@@ -9,8 +9,8 @@ START_TEXT = """👋 **Hello {user}!**
 
 🕹️ **Games Available:**
 • 🐊 Crocodile  
-• 🗺️ Atlas  
-• 🔗 Word Chain  
+• 🌎 Atlas  
+• ✏️ Word Chain  
 • 🕵️ Spyfall
 
 ➕ **Add me to a group** and send `/startclassic` to start playing!
@@ -18,26 +18,31 @@ START_TEXT = """👋 **Hello {user}!**
 
 HELP_TEXT = """🆘 **How to Play and Commands Overview**
 
-✏️ **Classic Word Chain Game**
+✏️ **✏️ Word Chain Game Help**
 • `/startclassic` - Start a new classic word chain game
 • `/join` - Join a pending game
 • `/flee` - Leave a pending game
 • `/extend` - Extend start countdown by 30 seconds
 • `/forcestart` - Force start the game (starter only)
+• `/stats` - Word Chain Statistics
 
 🐊 **Crocodile Game Help**
 • `/host` - Start hosting a word guessing game
 • `/stopgame` - Stop current host game (host only)
 
-🗺 **Atlas Game Help**
-• Each player must say a valid city or country
-• Word must start with the last letter of the previous word
+🌎 **Atlas Game Help**
+• `/startatlas` – Start a new Atlas game in the group
+• `/joinatlas` – Join a pending game
+• `/fleeatlas` – Leave the current game
+• `/extendatlas` – Extend the start countdown by 30s
+• `/forceatlas` – Force start the game (starter only)
+•`/atlasstats` – View your personal stats
 
 🕵️ **Spyfall Game Help**
-`/startspy` – Start a new game (group only)
-`/joinspy` – Join an active game
-`/forcestartspy` – Force start the game early
-`/stopspy` – Cancel the game
+• `/startspy` – Start a new game (group only)
+• `/joinspy` – Join an active game
+• `/forcestartspy` – Force start the game early
+• `/stopspy` – Cancel the game
 """
 
 # ▶ START command
@@ -91,7 +96,7 @@ async def help_main(client: Client, callback_query: CallbackQuery):
             ],
             [
                 InlineKeyboardButton("🕵️ Spyfall Game", callback_data="help_other"),
-                InlineKeyboardButton("🗺 Atlas Game", callback_data="help_general")
+                InlineKeyboardButton("🌎 Atlas Game", callback_data="help_general")
             ]
         ])
     )
@@ -108,6 +113,7 @@ How to Start:
 • `/forcestart` - Force start early
 • `/extend` - Add 30 seconds to countdown
 • `/flee` - Leave pending game
+• `/stats` - Get Your Word chain Statistics
 
 Game Rules:
 • Each word must begin with the last letter of the previous word
