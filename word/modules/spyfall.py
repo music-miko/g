@@ -103,12 +103,9 @@ class SpyGame:
         is_imposter = eliminated == self.imposter['id'] if eliminated else False
         await spy.send_message(
             self.chat_id,
-            f"🚨 {self.get_player(eliminated)['mention'] if eliminated else 'No one'} eliminated!
-"
-            f"👤 Imposter: {self.imposter['mention']}
-"
-            f"Common: {self.common_word} | Imposter: {self.imposter_word}
-"
+            f"🚨 {self.get_player(eliminated)['mention'] if eliminated else 'No one'} eliminated!"
+            f"👤 Imposter: {self.imposter['mention']}"
+            f"Common: {self.common_word} | Imposter: {self.imposter_word}"
             f"{'✅ Crew wins!' if is_imposter else '❌ Imposter wins!'}"
         )
         del spy_games[self.chat_id]
