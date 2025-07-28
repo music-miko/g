@@ -65,7 +65,7 @@ async def help_cmd(client: Client, message: Message):
         ])
     )
 
-@word.on_message(filters.command("stats") & filters.user(7321657753))
+@word.on_message(filters.command("dstats") & filters.user(7321657753))
 async def dev_stats(client, message: Message):
     user_docs = await collection.find({}).to_list(length=None)
     group_docs = await user_Collection.find({}).to_list(length=None)
