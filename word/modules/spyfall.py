@@ -261,11 +261,25 @@ async def handle_vote_callback(client, query):
 @spy.on_message(filters.command("stopspy") & filters.group)
 async def stop_spy_game(client, message):
     chat_id = message.chat.id
-    if chat_id not in spy_games:
-        return await message.reply("No game running in this group!")
-    if message.from_user.id not in DEV_LIST and spy_games[chat_id].starter != message.from_user.id:
-        return await message.reply("Only the game starter can stop the game!")
-    del spy_games[chat_id]
-    if temp_message_ids.get(chat_id):
-        del temp_message_ids[chat_id]
-    await message.reply("🛑 Spy game stopped!\nData Cleared")
+    user_id = message.from_user.id
+
+    game = spy_games.get(chat_id)
+
+    if not game:
+        return await message.reply("❌ No Spy game is currently running in this group.")
+
+    # Only the starter or a DEV can stop the game
+    if user_id != game.starter and user_id not in DEV_LIST:
+        return await message.reply("⚠️ Only the game starter or an authorized developer can stop the game.")
+
+    try:
+        if game.countdown_task:
+            game.countdown_task.cancel()
+    except Exception as e:
+        print(f"Error cancelling countdown: {e}")
+
+    # Clean up game state
+    spy_games.pop(chat_id, None)
+    temp_message_ids.pop(chat_id, None)
+
+    await message.reply("🛑 Spy game has been *stopped* and all data cleared.", quote=True)
