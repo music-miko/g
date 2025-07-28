@@ -16,35 +16,6 @@ START_TEXT = """👋 **Hello {user}!**
 ➕ **Add me to a group** and send `/startclassic` to start playing!
 """
 
-HELP_TEXT = """🆘 **How to Play and Commands Overview**
-
-✏️ **✏️ Word Chain Game Help**
-• `/startclassic` - Start a new classic word chain game
-• `/join` - Join a pending game
-• `/flee` - Leave a pending game
-• `/extend` - Extend start countdown by 30 seconds
-• `/forcestart` - Force start the game (starter only)
-• `/stats` - Word Chain Statistics
-
-🐊 **Crocodile Game Help**
-• `/host` - Start hosting a word guessing game
-• `/stopgame` - Stop current host game (host only)
-
-🌎 **Atlas Game Help**
-• `/startatlas` – Start a new Atlas game in the group
-• `/joinatlas` – Join a pending game
-• `/fleeatlas` – Leave the current game
-• `/extendatlas` – Extend the start countdown by 30s
-• `/forceatlas` – Force start the game (starter only)
-•`/atlasstats` – View your personal stats
-
-🕵️ **Spyfall Game Help**
-• `/startspy` – Start a new game (group only)
-• `/joinspy` – Join an active game
-• `/forcestartspy` – Force start the game early
-• `/stopspy` – Cancel the game
-"""
-
 # ▶ START command
 @word.on_message(filters.command(["start"]))
 async def start(client: Client, message: Message):
@@ -69,26 +40,36 @@ async def start(client: Client, message: Message):
             [
                 [InlineKeyboardButton("📘 Help", callback_data="help_main")],
                 [
-                    InlineKeyboardButton("📡 Updates", url=f"https://t.me/DeadlineTechTeam"),
-                    InlineKeyboardButton("🏪 Support", url=f"https://t.me/DeadlineTechSupport")
+                    InlineKeyboardButton("📡 Updates", url="https://t.me/DeadlineTechTeam"),
+                    InlineKeyboardButton("🏪 Support", url="https://t.me/DeadlineTechSupport")
                 ],
-                [
-                    InlineKeyboardButton("➕ Add me to Your Chat ➕", url=f"https://t.me/ChainWordsBot?startgroup=true")
-                ]
+                [InlineKeyboardButton("➕ Add me to Your Chat ➕", url="https://t.me/ChainWordsBot?startgroup=true")]
             ]
         )
     )
 
-# ▶ HELP command
+# ▶ HELP command (Updated)
 @word.on_message(filters.command("help"))
 async def help_cmd(client: Client, message: Message):
-    await message.reply_text(HELP_TEXT)
+    await message.reply_text(
+        "**🆘 Select a game below to view how to play:**",
+        reply_markup=InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton("✏️ Word Chain Game", callback_data="help_classic"),
+                InlineKeyboardButton("🐊 Crocodile Game", callback_data="help_host")
+            ],
+            [
+                InlineKeyboardButton("🕵️ Spyfall Game", callback_data="help_other"),
+                InlineKeyboardButton("🌎 Atlas Game", callback_data="help_general")
+            ]
+        ])
+    )
 
 # ▶ CALLBACK handlers
 @word.on_callback_query(filters.regex("help_main"))
 async def help_main(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        HELP_TEXT,
+        "**🆘 Select a game below to view how to play:**",
         reply_markup=InlineKeyboardMarkup([
             [
                 InlineKeyboardButton("✏️ Word Chain Game", callback_data="help_classic"),
@@ -148,8 +129,8 @@ How to Play:
     )
     await callback_query.answer()
 
-@word.on_callback_query(filters.regex("help_other"))
-async def help_other(client: Client, callback_query: CallbackQuery):
+@word.on_callback_query(filters.regex("help_general"))
+async def help_general(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
         """🌎 **Atlas Game Help**
 
@@ -174,9 +155,6 @@ Last remaining player wins!
 ⛔ Invalid entries or timeouts = elimination
 
 🎒 Tip: All city/state/country names are valid. Stay sharp!
-
-Need help? Ping: @DeadlineTechSupport
-
 """,
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton("🔙 Back to Help", callback_data="help_main")]
@@ -184,8 +162,8 @@ Need help? Ping: @DeadlineTechSupport
     )
     await callback_query.answer()
 
-@word.on_callback_query(filters.regex("help_general"))
-async def help_general(client: Client, callback_query: CallbackQuery):
+@word.on_callback_query(filters.regex("help_other"))
+async def help_other(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
         """🕵️ **Spyfall Game Help**
 
